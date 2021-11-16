@@ -18,7 +18,7 @@ Column {data-width=1000}
 ### Week 46
 
 ```{r}
-df <- readRDS("df.rds")
+df <- readRDS("../top40_2021.rds")
 rownames(df) <- NULL
 df %>% 
   kable()
