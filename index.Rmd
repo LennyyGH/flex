@@ -10,6 +10,8 @@ output:
 library(flexdashboard)
 library(knitr)
 library(tidyverse)
+library(kableExtra)
+library(DT)
 ```
 
 Column {data-width=1000}
@@ -18,8 +20,16 @@ Column {data-width=1000}
 ### Week 46
 
 ```{r}
-df <- readRDS("../top40_2021.rds")
-rownames(df) <- NULL
-df %>% 
-  kable()
+df <- readRDS("../top40_2021.rds") %>% 
+  arrange(desc(week), positie)
+
+datatable(df, 
+  options = list(
+    pageLength = 40
+  ),
+  class = "cell-border",
+  rownames = F,
+  filter = "top",
+  style = "bootstrap"
+)
 ```
