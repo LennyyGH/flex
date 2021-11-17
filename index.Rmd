@@ -1,5 +1,5 @@
 ---
-title: "Top 40"
+title: "Music"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
@@ -14,22 +14,60 @@ library(kableExtra)
 library(DT)
 ```
 
-Column {data-width=1000}
------------------------------------------------------------------------
+```{r}
+top40 <- readRDS("input/top40.rds")
+top2000 <- readRDS("input/top2000.rds")
 
-### Week 46
+customdtfunc <- function(dataframe){
+  datatable(dataframe, 
+            options = list(
+              pageLength = 40,
+              lengthMenu = c(10,40,100)
+            ),
+            class = "cell-border",
+            rownames = F,
+            filter = "top",
+            style = "bootstrap"
+  )
+}
+```
+
+
+
+
+
+Top 40
+===
+
+Top40 {.tabset}
+---
+
+### table
 
 ```{r}
-df <- readRDS("../top40_2021.rds") %>% 
-  arrange(desc(week), positie)
 
-datatable(df, 
-  options = list(
-    pageLength = 40
-  ),
-  class = "cell-border",
-  rownames = F,
-  filter = "top",
-  style = "bootstrap"
-)
+customdtfunc(top40)
+```
+
+### mtcars
+
+```{r}
+mtcars
+```
+
+Top 2000
+===
+
+Top2000 {.tabset}
+---
+
+### table
+
+```{r}
+customdtfunc(top2000)
+```
+
+### blabla
+```{r}
+mtcars
 ```
