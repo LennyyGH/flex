@@ -15,8 +15,22 @@ library(DT)
 ```
 
 ```{r}
-top40 <- readRDS("input/top40.rds")
+top40all <- readRDS("input/top40.rds") %>% 
+  mutate_if(is.numeric, as.integer) %>% 
+  mutate_at("positie", as.integer)
+top40current <- tail(top40all, 40)
+top40uniques <- top40all %>% 
+  group_by(artiest, titel) %>% 
+  mutate(binnenkomst = min(paste(jaar, week, sep = "-")),
+         weekuit = max(paste(jaar, week, sep = "-")),
+         weken = max(weken),
+         hoogst = as.integer(min(positie))) %>% 
+  ungroup %>% 
+  distinct(artiest, titel, .keep_all = T) %>% 
+  select(artiest, titel, weken, binnenkomst, weekuit, hoogst)
+
 top2000 <- readRDS("input/top2000.rds")
+
 
 customdtfunc <- function(dataframe){
   datatable(dataframe, 
@@ -42,17 +56,22 @@ Top 40
 Top40 {.tabset}
 ---
 
-### table
+### Top40 current
 
 ```{r}
-
-customdtfunc(top40)
+customdtfunc(top40current)
 ```
 
-### mtcars
+### Top40 all
 
 ```{r}
-mtcars
+customdtfunc(top40all)
+```
+
+### Top40 unique songs
+
+```{r}
+customdtfunc(top40uniques)
 ```
 
 Top 2000
