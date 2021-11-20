@@ -17,7 +17,8 @@ library(DT)
 ```{r}
 top40all <- readRDS("input/top40.rds") %>% 
   mutate_if(is.numeric, as.integer) %>% 
-  mutate_at("positie", as.integer)
+  mutate_at("positie", as.integer) %>% 
+  select(artiest, titel, positie, vorige, weken, jaar, week)
 top40current <- tail(top40all, 40)
 top40uniques <- top40all %>% 
   group_by(artiest, titel) %>% 
@@ -30,7 +31,8 @@ top40uniques <- top40all %>%
   select(artiest, titel, weken, binnenkomst, weekuit, hoogst)
 
 top2000all <- readRDS("input/top2000.rds") %>% 
-  mutate_if(is.numeric, as.integer)
+  mutate_if(is.numeric, as.integer) %>% 
+  select(artiest, titel, positie, jaar, release, hp)
 top2000current <- head(top2000all, 2000)
 top2000uniques <- top2000all %>% 
   group_by(artiest, titel) %>% 
